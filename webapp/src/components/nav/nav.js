@@ -12,9 +12,8 @@ export const Nav = () => {
         </Link>
       </div>
       <AltLinks>
-        <Link css={LinkStyle} to='/addBudget'><button>Add Budget</button></Link>
-        <Link css={LinkStyle} to='/addTransaction'><button>Add Transaction</button></Link>
-        <Link css={LinkStyle} to='/someNewLink'><button>Add Something Else...</button></Link>
+        {/* <Link css={LinkStyle} to='/addBudget'><button>Add Budget</button></Link> */}
+        <Link css={LinkStyle} to='/addTransaction'><ButtonStyle>Add Transaction</ButtonStyle></Link>
       </AltLinks>
     </NavWrapper>
   )
@@ -42,4 +41,26 @@ const ImageStyle = styled.img`
     filter: invert(100%);
     width: 126px;
     height: 50px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-top: 10px;
+`
+const ButtonStyle = styled.button`
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 200px;
+    border: none;
+    font-size: 16px;
+    letter-spacing: 1.1px;
+    line-height: 18px;
+    font-weight: 700;
+    padding: 10px;
+    margin-top: 1.2em;
+    cursor: pointer;
+
+    &:hover {
+        transition: all 150ms linear;
+        opacity: .85;
+    }
 `

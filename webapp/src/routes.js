@@ -1,8 +1,9 @@
 import React from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { css } from '@emotion/core'
-import { Home } from './components/home'
+import { Home } from './components/home-page'
 import { Nav } from './components/nav/nav'
+import { NewTransaction } from './components/add-transaction'
 
 function AppRouter () {
   return (
@@ -11,6 +12,7 @@ function AppRouter () {
         <Nav />
         <div className='main-content'>
           <Route component={Home} exact path='/' />
+          <Route component={NewTransaction} exact path='/addTransaction' />
         </div>
       </div>
     </Router>
@@ -20,6 +22,6 @@ function AppRouter () {
 export default AppRouter
 
 const layoutStyle = css`
-    background-color: #E1DED0;
+    background-color: #E5E2D4;
     height: 100vh;
 `
