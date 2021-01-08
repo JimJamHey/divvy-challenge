@@ -25,12 +25,13 @@ export function Home () {
 
   return (
     <Fragment>
-      <TableTitle>Transactions</TableTitle>
+      <TableTitle>Your Statement</TableTitle>
       <table css={TableContainer}>
         <thead>
           <tr>
             <TableHeader>Edit</TableHeader>
             <TableHeader>Description</TableHeader>
+            <TableHeader>Merchant #</TableHeader>
             <TableHeader>Type</TableHeader>
             <TableHeader>Amount</TableHeader>
             <TableHeader>Delete</TableHeader>
@@ -47,7 +48,7 @@ export function Home () {
                   }} />
                 </td>
                 <td css={TableRowStyle}>{transaction.description}</td>
-                {/* <td css={TableRowStyle}>{transaction.merchant_id}</td> */}
+                <td css={TableRowStyle}>{transaction.merchant_id}</td>
                 <td css={TableRowStyle}>{transaction.debit ? 'Debit' : 'Credit'}</td>
                 <td css={TableRowStyle}>${transaction.amount}</td>
                 <td css={DeleteIconStyle}>
@@ -70,44 +71,48 @@ const TableTitle = styled.h1`
 
 const TableHeader = styled.th`
   background-color: #000;
+  padding: 5px;
   color: #fff;
 `
 
 const EditIconStyle = css`
-  color: black;
-  background-color: #E5E2D4;
-  padding-bottom: 4px;
-  padding: 0 10px;
+  color: #1b1c23;
+  background-color: #fff;
+  font-size: 1.2rem;
+  padding: 0 20px;
   cursor: pointer;
   text-align: center;
 
   &:hover {
-    color: green;
+    color: #a7bbe5;
   }
 `
 
 const DeleteIconStyle = css`
-  color: black;
-  background-color: #E5E2D4;
-  padding-bottom: 4px;
+  color: #1b1c23;
+  background-color: #fff;
+  font-size: 1.2rem;
   padding-left: 4px;
   cursor: pointer;
   text-align: center;
 
   &:hover {
-    color: red;
+    color: #c6362c;
   }
 `
 
 const TableContainer = css`
-  background-color: #000;
+  border-radius: 8px;
+  border-collapse: collapse;
+  box-shadow: 20px 20px 30px 10px rgba(204,204,204,1);
   margin: 0 auto;
 `
 const TableRowStyle = css`
-  background-color: #5e5e5e;
-  color: white;
-  border: 1px solid #6e6e6e;
+  background-color: #fff;
+  color: #1b1c23;
+  font-weight: 700;
   padding-left: 8px;
+  padding: 1.5rem;
 
   &:hover {
     transition: all 150ms linear;
@@ -116,5 +121,7 @@ const TableRowStyle = css`
 `
 const TableDataStyle = css`
   background-color: #fff;
+  border-bottom: 1px solid #dfdee4;
   color: black;
+
 `

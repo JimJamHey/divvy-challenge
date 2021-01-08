@@ -40,7 +40,7 @@ const mutation = new GraphQLObjectType({
     deleteTransaction: {
       type: TransactionType,
       args: {
-        id: { type: GraphQLString },
+        id: { type: GraphQLString }
       },
       resolve (_, args) {
         return (TransactionModel.findByIdAndDelete(args.id))

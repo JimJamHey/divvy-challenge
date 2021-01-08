@@ -57,6 +57,7 @@ const ButtonStyle = styled.button`
     font-weight: 700;
     padding: 10px;
     margin-top: 1.2em;
+    outline: none
     cursor: pointer;
 
     &:hover {

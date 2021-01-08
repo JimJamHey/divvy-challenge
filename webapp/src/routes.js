@@ -22,6 +22,6 @@ function AppRouter () {
 export default AppRouter
 
 const layoutStyle = css`
-    background-color: #E5E2D4;
+    background-color: #fff;
     height: 100vh;
 `
