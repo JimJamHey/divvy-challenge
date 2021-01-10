@@ -65,6 +65,7 @@ const NewTransaction = ({ history: { push } }) => {
       setValues({ ...initialState })
       push('/')
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.log(err)
     }
   }
@@ -94,11 +95,11 @@ const NewTransaction = ({ history: { push } }) => {
         <label htmlFor='merchant_id'>
                 Merchant ID:
         </label>
-        <Input id='merchant_id' name='merchant_id' onChange={changeHandler} placeholder='Merchant store number...' required type='number' value={values.merchant_id} />
+        <Input id='merchant_id' max={9999} min={0} name='merchant_id' onChange={changeHandler} placeholder='Merchant store number...' required type='number' value={values.merchant_id} />
         <label htmlFor='amount'>
                 Amount:
         </label>
-        <Input id='amount' min={0} name='amount' onChange={changeHandler} placeholder='$Amount...' required type='number' value={values.amount} />
+        <Input id='amount' max={9999} min={0} name='amount' onChange={changeHandler} placeholder='$Amount...' required type='number' value={values.amount} />
         <button css={submitButton} to='/' type='submit'>Submit</button>
         <Link to='/'><button css={cancelButton} to='/'>Cancel</button></Link>
       </Form>

@@ -36,7 +36,7 @@ const eslintConfig = {
   test: JS_FILE_REGEX,
   enforce: 'pre',
   use: {
-    loader: 'eslint-loader', 
+    loader: 'eslint-loader',
     options: {
       fix: true
     }

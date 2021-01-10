@@ -9,16 +9,26 @@ import Modal from './modal'
 
 import { GET_TRANSACTIONS, DELETE_TRANSACTION } from '../queries/index'
 import { useMutation, useQuery } from '@apollo/react-hooks'
+import { Romanize } from './utils/romanize'
 
 export function Home () {
   const [showModal, setShowModal] = useState(false)
   const [transaction, setTransaction] = useState({})
+  const [roman, setRoman] = useState(false)
   const { data, loading, error } = useQuery(GET_TRANSACTIONS)
   const [deleteTransaction] = useMutation(DELETE_TRANSACTION, {
     refetchQueries: [{
       query: GET_TRANSACTIONS
     }]
   })
+
+  const romanHandler = () => {
+    if (document.getElementById('romanCheckbox').checked === true) {
+      setRoman(true)
+    } else {
+      setRoman(false)
+    }
+  }
 
   const handleEditClick = (transaction) => {
     setShowModal(true)
@@ -60,6 +70,9 @@ export function Home () {
         <Edit onCancel={() => setShowModal(false)} setShowModal={setShowModal} transaction={transaction} />
       </Modal>
       <TableTitle>Your Statement</TableTitle>
+      <div css={romanizeSwitch}>
+        <input css={romanizeCheckbox} id='romanCheckbox' onClick={() => romanHandler()} type='checkbox' /> Romanize
+      </div>
       <table css={TableContainer}>
         <thead>
           <tr>
@@ -79,9 +92,9 @@ export function Home () {
                   <FontAwesomeIcon css={EditIconStyle} icon={faEdit} onClick={() => handleEditClick(transaction)} />
                 </td>
                 <td css={TableRowStyle}>{transaction.description}</td>
-                <td css={TableRowStyle}>{transaction.merchant_id}</td>
+                <td css={TableRowStyle}>{roman === true ? Romanize(transaction.merchant_id) : transaction.merchant_id}</td>
                 <td css={TableRowStyle}>{transaction.debit ? 'Debit' : 'Credit'}</td>
-                <td css={TableRowStyle}>${transaction.amount}</td>
+                <td css={TableRowStyle}>${roman === true ? Romanize(transaction.amount) : transaction.amount}</td>
                 <td>
                   <FontAwesomeIcon css={DeleteIconStyle} icon={faTrash} onClick={() => deleteTransactionHandler(transaction)} />
                 </td>
@@ -96,6 +109,19 @@ export function Home () {
 
 const TableTitle = styled.h1`
   text-align: center;
+`
+
+const romanizeSwitch = css`
+  text-align: center;
+  align-self: center;
+  margin: 0 auto;
+  margin: 1rem;
+  font-size: 18px;
+  font-weight: 700;
+`
+
+const romanizeCheckbox = css`
+  margin: 15px;
 `
 
 const TableHeader = styled.th`

@@ -20,6 +20,7 @@ export const Nav = () => {
 
 const NavWrapper = styled.div`
     display: flex;
+    background-color: #f2f4f7;
     flex-direction: row;
     justify-content: space-between;
 `

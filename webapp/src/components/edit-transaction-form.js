@@ -6,10 +6,6 @@ import styled from '@emotion/styled'
 import { func, object } from 'prop-types'
 import { EDIT_TRANSACTION, GET_TRANSACTIONS } from '../queries'
 
-// submit handler with useMutation to submit new data to backend
-// update modal css to fit form fields
-// add sweet alert confirm edit
-
 const labelOptions = [{ label: 'Debit', value: 'debit' }, { label: 'Credit', value: 'credit' }]
 
 function Edit ({ transaction, onCancel, setShowModal }) {
@@ -24,9 +20,7 @@ function Edit ({ transaction, onCancel, setShowModal }) {
     merchant_id: merchantId,
     description,
     credit,
-    // debit,
     amount
-    // id // need this for the useMutation
   } = updatedTransaction
 
   if (loading) return <div>Loading...</div>
@@ -54,11 +48,13 @@ function Edit ({ transaction, onCancel, setShowModal }) {
       })
       setShowModal(false)
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.log(err)
     }
   }
 
   useEffect(() => {
+    // eslint-disable-next-line no-console
     console.log({ updatedTransaction })
   }, [updatedTransaction])
 
