@@ -11,13 +11,6 @@ async function find (criteria) {
   return packageModel(transactions)
 }
 
-async function edit (criteria) {
-  const query = TransactionModel.findByIdAndUpdate(criteria.id, criteria)
-  const editTransaction = await query.exec()
-
-  return packageModel(editTransaction)
-}
-
 async function findOne (id) {
   const query = TransactionModel.findById(id)
   const transaction = await query.exec()
@@ -27,6 +20,5 @@ async function findOne (id) {
 
 module.exports = {
   find,
-  edit,
   findOne
 }

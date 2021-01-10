@@ -34,8 +34,13 @@ const imageUrlConfig = {
 
 const eslintConfig = {
   test: JS_FILE_REGEX,
-  use: 'eslint-loader',
   enforce: 'pre',
+  use: {
+    loader: 'eslint-loader', 
+    options: {
+      fix: true
+    }
+  },
   // we want eslint to ignore @divvy/skylab
   exclude: /\/node_modules\/(?!apollo-.*?|react-apollo)/
 }

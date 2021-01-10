@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
-// import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import alert from 'sweetalert2'
+import propTypes from 'prop-types'
+import { css } from '@emotion/core'
 import styled from '@emotion/styled'
-import { Mutation } from 'react-apollo'
 import { ADD_TRANSACTION, GET_TRANSACTIONS } from '../queries/index'
+import { useMutation, useQuery } from '@apollo/react-hooks'
 
 const initialState = {
   user_id: '1',
@@ -16,9 +18,17 @@ const initialState = {
 
 const labelOptions = [{ label: 'Debit', value: 'debit' }, { label: 'Credit', value: 'credit' }]
 
-export const NewTransaction = (props) => {
+const NewTransaction = ({ history: { push } }) => {
   const [values, setValues] = useState({ ...initialState })
-  const [errors, setErrors] = useState(false)
+  const { loading, error } = useQuery(GET_TRANSACTIONS)
+  const [addTransaction] = useMutation(ADD_TRANSACTION, {
+    refetchQueries: [{
+      query: GET_TRANSACTIONS
+    }]
+  })
+
+  if (loading) return <div>Loading...</div>
+  if (error) return <div>There was an error adding the transaction</div>
 
   const changeHandler = ({ target: { name, value } }) => {
     setValues({ ...values, [name]: value })
@@ -32,90 +42,74 @@ export const NewTransaction = (props) => {
     }
   }
 
-  const submitHandler = (e, addTransaction) => {
+  const submitHandler = async (e) => {
     e.preventDefault()
-    addTransaction().then(async ({ data, loading }) => {
-      if (!loading && data && data.addTransaction) {
-        alert.fire('Transaction has been added!')
-        setValues({ ...initialState })
-      }
-    })
-  }
-
-  const showErrors = errors => {
-    return errors.map((err, index) => <Error key={index}>{err.message}</Error>)
+    try {
+      await addTransaction({
+        variables: {
+          ...values,
+          user_id: values.user_id,
+          description: values.description,
+          merchant_id: values.merchant_id,
+          debit: values.debit,
+          credit: values.credit,
+          amount: parseFloat(values.amount)
+        }
+      })
+      alert.fire({
+        title: 'Success!',
+        text: 'The transaction has been added!',
+        type: 'success',
+        confirmButtonColor: '#111111'
+      })
+      setValues({ ...initialState })
+      push('/')
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   return (
-    <Mutation
-      mutation={ADD_TRANSACTION}
-      refetchQueries={() => {
-        return [
-          {
-            query: GET_TRANSACTIONS
-          }
-        ]
-      }}
-      variables={{
-        ...values,
-        user_id: values.user_id,
-        description: values.description,
-        merchant_id: values.merchant_id,
-        debit: values.debit,
-        credit: values.credit,
-        amount: parseFloat(values.amount)
-      }}
-    >
-      {(addTransaction, { loading, data, error }) => {
-        if (error) {
-          setErrors(true)
-        } else {
-          setErrors(false)
-        }
-        return (
-          <FormContainer>
-            <FormTitle>Add transaction here</FormTitle>
-            <Form onSubmit={e => submitHandler(e, addTransaction)}>
-              {error && errors && showErrors(error.graphQLErrors)}
-              <label htmlFor='user_id'>
+    <FormContainer>
+      <FormTitle>Add Transaction</FormTitle>
+      <Form onSubmit={e => submitHandler(e, addTransaction)}>
+        <label htmlFor='user_id'>
                 User ID:
-              </label>
-              <Input id='user_id' name='user_id' onChange={changeHandler} placeholder='User ID...' readOnly type='number' value={values.user_id} />
-              <label htmlFor='description'>
+        </label>
+        <Input id='user_id' name='user_id' onChange={changeHandler} placeholder='User ID...' readOnly type='number' value={values.user_id} />
+        <label htmlFor='description'>
                 Description:
-              </label>
-              <Input id='description' name='description' onChange={changeHandler} placeholder='Description...' required type='text' value={values.description} />
-              <label htmlFor='transaction-type'>
+        </label>
+        <Input id='description' name='description' onChange={changeHandler} placeholder='Description...' required type='text' value={values.description} />
+        <label htmlFor='transaction-type'>
                 Type:
-              </label>
-              <Select id='transaction-type' onChange={e => selectHandler(e)} value={values.credit ? 'credit' : 'debit'}>
-                {labelOptions.map((x, index) => (
-                  <option key={index} value={x.value}>
-                    {x.label}
-                  </option>
-                ))}
-              </Select>
-              <label htmlFor='merchant_id'>
+        </label>
+        <Select id='transaction-type' onChange={e => selectHandler(e)} value={values.credit ? 'credit' : 'debit'}>
+          {labelOptions.map((x, index) => (
+            <option key={index} value={x.value}>
+              {x.label}
+            </option>
+          ))}
+        </Select>
+        <label htmlFor='merchant_id'>
                 Merchant ID:
-              </label>
-              <Input id='merchant_id' name='merchant_id' onChange={changeHandler} placeholder='Merchant store number...' required type='number' value={values.merchant_id} />
-              <label htmlFor='amount'>
+        </label>
+        <Input id='merchant_id' name='merchant_id' onChange={changeHandler} placeholder='Merchant store number...' required type='number' value={values.merchant_id} />
+        <label htmlFor='amount'>
                 Amount:
-              </label>
-              <Input id='amount' min={0} name='amount' onChange={changeHandler} placeholder='$Amount...' required type='number' value={values.amount} />
-              <SubmitButton type='submit'>Submit</SubmitButton>
-            </Form>
-          </FormContainer>
-        )
-      }}
-    </Mutation>
+        </label>
+        <Input id='amount' min={0} name='amount' onChange={changeHandler} placeholder='$Amount...' required type='number' value={values.amount} />
+        <button css={submitButton} to='/' type='submit'>Submit</button>
+        <Link to='/'><button css={cancelButton} to='/'>Cancel</button></Link>
+      </Form>
+    </FormContainer>
   )
 }
 
 const FormContainer = styled.div`
   background-color: #fff;
   border-radius: 6px;
-  box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.6);
+  box-shadow: 10px 10px 18px 10px rgba(204,204,204,1);
   width: 30%;
   margin: 0 auto;
   margin-top: 4.5rem;
@@ -151,29 +145,43 @@ const Select = styled.select`
   outline: none;
 `
 
-const SubmitButton = styled.button`
-  background-image: linear-gradient(60deg, #4d79ff, #809fff, #b3c6ff);
-  color: #000;
-  padding: 5px;
+const cancelButton = css`
+  background-color: #ad423b;
+  border: none;
+  color: #fff;
   margin-top: 10px;
-  border: 0.5px solid #000066;
+  height: 2rem;
+  border-radius: 10px;
+  outline: none;
+  width: 100%;
+  cursor: pointer;
+  font-size: 20px;
+
+  &:hover {
+    transition: all 150ms linear;
+    opacity: .85;
+  }
+`
+
+const submitButton = css`
+  background-color: #111111;
+  border: none;
+  color: #fff;
+  margin-top: 10px;
+  height: 2rem;
   border-radius: 10px;
   outline: none;
   cursor: pointer;
   font-size: 20px;
 
   &:hover {
-    background-image: linear-gradient(60deg, #b3c6ff, #809fff, #4d79ff);
-    color: #e6e6e6;
+    transition: all 150ms linear;
+    opacity: .85;
   }
 `
 
-const Error = styled.div`
-  background-color: red;
-  width: 100%;
-  text-align: center;
-  padding: 16px;
-  border-radius: 6px;
-  margin-bottom: 15px;
-  font-size: 14px;
-`
+export default NewTransaction
+
+NewTransaction.propTypes = {
+  history: propTypes.object
+}

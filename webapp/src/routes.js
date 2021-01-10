@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { css } from '@emotion/core'
 import { Home } from './components/home-page'
 import { Nav } from './components/nav/nav'
-import { NewTransaction } from './components/add-transaction'
+import NewTransaction from './components/add-transaction'
 
 function AppRouter () {
   return (
@@ -22,6 +22,6 @@ function AppRouter () {
 export default AppRouter
 
 const layoutStyle = css`
-    background-color: #fff;
-    height: 100vh;
+    background-color: #f2f4f7;
+    height: 100%;
 `

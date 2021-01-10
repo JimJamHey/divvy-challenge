@@ -12,7 +12,6 @@ export const Nav = () => {
         </Link>
       </div>
       <AltLinks>
-        {/* <Link css={LinkStyle} to='/addBudget'><button>Add Budget</button></Link> */}
         <Link css={LinkStyle} to='/addTransaction'><ButtonStyle>Add Transaction</ButtonStyle></Link>
       </AltLinks>
     </NavWrapper>
@@ -57,7 +56,7 @@ const ButtonStyle = styled.button`
     font-weight: 700;
     padding: 10px;
     margin-top: 1.2em;
-    outline: none
+    outline: none;
     cursor: pointer;
 
     &:hover {
