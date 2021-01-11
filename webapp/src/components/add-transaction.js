@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import alert from 'sweetalert2'
-import propTypes from 'prop-types'
+
 import { css } from '@emotion/core'
 import styled from '@emotion/styled'
+import propTypes from 'prop-types'
+import alert from 'sweetalert2'
+
 import { ADD_TRANSACTION, GET_TRANSACTIONS } from '../queries/index'
 import { useMutation, useQuery } from '@apollo/react-hooks'
 
@@ -116,6 +118,14 @@ const FormContainer = styled.div`
   margin-top: 4.5rem;
   padding-top: 10px;
   padding-bottom: 2.5rem;
+
+  @media (max-width: 1200px) {
+    width: 55%;
+  }
+
+  @media (max-width: 900px) {
+    width: 75%;
+  }
 `
 
 const Form = styled.form`
@@ -151,7 +161,7 @@ const cancelButton = css`
   border: none;
   color: #fff;
   margin-top: 10px;
-  height: 2rem;
+  height: 2.4rem;
   border-radius: 10px;
   outline: none;
   width: 100%;
@@ -169,7 +179,7 @@ const submitButton = css`
   border: none;
   color: #fff;
   margin-top: 10px;
-  height: 2rem;
+  height: 2.4rem;
   border-radius: 10px;
   outline: none;
   cursor: pointer;

@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
+
 import { useMutation, useQuery } from '@apollo/react-hooks'
-import alert from 'sweetalert2'
 import { css } from '@emotion/core'
 import styled from '@emotion/styled'
+import alert from 'sweetalert2'
 import { func, object } from 'prop-types'
+
 import { EDIT_TRANSACTION, GET_TRANSACTIONS } from '../queries'
 
 const labelOptions = [{ label: 'Debit', value: 'debit' }, { label: 'Credit', value: 'credit' }]
@@ -112,6 +114,14 @@ const FormContainer = styled.div`
   margin-top: 4.5rem;
   padding-top: 10px;
   padding-bottom: 2.5rem;
+
+  @media (max-width: 1400px) {
+    width: 30%;
+  }
+
+  @media (max-width: 800px) {
+      width: 75%;
+  }
 `
 
 const Form = styled.form`
@@ -146,7 +156,7 @@ const cancelButton = css`
   border: none;
   color: #fff;
   margin-top: 10px;
-  height: 2rem;
+  height: 2.4rem;
   border-radius: 10px;
   outline: none;
   cursor: pointer;
@@ -163,7 +173,7 @@ const submitButton = css`
   border: none;
   color: #fff;
   margin-top: 10px;
-  height: 2rem;
+  height: 2.4rem;
   border-radius: 10px;
   outline: none;
   cursor: pointer;

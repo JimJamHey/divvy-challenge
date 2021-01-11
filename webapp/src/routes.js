@@ -1,6 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { css } from '@emotion/core'
+
 import { Home } from './components/home-page'
 import { Nav } from './components/nav/nav'
 import NewTransaction from './components/add-transaction'

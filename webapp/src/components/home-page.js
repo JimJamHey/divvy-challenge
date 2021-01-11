@@ -1,15 +1,16 @@
 import React, { Fragment, useState } from 'react'
+
 import { css } from '@emotion/core'
 import styled from '@emotion/styled'
 import alert from 'sweetalert2'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons'
-import Edit from './edit-transaction-form'
-import Modal from './modal'
 
 import { GET_TRANSACTIONS, DELETE_TRANSACTION } from '../queries/index'
 import { useMutation, useQuery } from '@apollo/react-hooks'
 import { Romanize } from './utils/romanize'
+import Edit from './edit-transaction-form'
+import Modal from './modal'
 
 export function Home () {
   const [showModal, setShowModal] = useState(false)
@@ -70,8 +71,9 @@ export function Home () {
         <Edit onCancel={() => setShowModal(false)} setShowModal={setShowModal} transaction={transaction} />
       </Modal>
       <TableTitle>Your Statement</TableTitle>
-      <div css={romanizeSwitch}>
-        <input css={romanizeCheckbox} id='romanCheckbox' onClick={() => romanHandler()} type='checkbox' /> Romanize
+      <div css={romanizeBox}>
+        <input css={romanizeCheckbox} id='romanCheckbox' onClick={() => romanHandler()} type='checkbox' />
+        <label htmlFor='romanCheckbox'>Romanize</label>
       </div>
       <table css={TableContainer}>
         <thead>
@@ -111,17 +113,18 @@ const TableTitle = styled.h1`
   text-align: center;
 `
 
-const romanizeSwitch = css`
+const romanizeBox = css`
   text-align: center;
   align-self: center;
-  margin: 0 auto;
+  /* margin: 0 auto; */
   margin: 1rem;
   font-size: 18px;
   font-weight: 700;
 `
 
 const romanizeCheckbox = css`
-  margin: 15px;
+  margin: 10px;
+  letter-spacing: 1rem;
 `
 
 const TableHeader = styled.th`
@@ -147,7 +150,7 @@ const DeleteIconStyle = css`
   color: #1b1c23;
   background-color: #fff;
   font-size: 1.2rem;
-  padding-left: 4px;
+  padding-left: 1.4rem;
   cursor: pointer;
   text-align: center;
 
@@ -158,7 +161,7 @@ const DeleteIconStyle = css`
 
 const TableContainer = css`
   border-collapse: collapse;
-  box-shadow: 20px 20px 15px 10px rgba(204,204,204,1);
+  box-shadow: 20px 20px 10px 5px rgba(204,204,204,1);
   margin: 0 auto;
 `
 const TableRowStyle = css`
@@ -177,5 +180,4 @@ const TableDataStyle = css`
   background-color: #fff;
   border-bottom: 1px solid #dfdee4;
   color: black;
-
 `
